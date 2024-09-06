@@ -143,6 +143,7 @@ public class InvoiceController {
         model.addAttribute("list", invoices);
         model.addAttribute("message", message);
         return "allInvoicesPage";
+        //return "allCategoriesPage";
     }
 
     @GetMapping("/edit")

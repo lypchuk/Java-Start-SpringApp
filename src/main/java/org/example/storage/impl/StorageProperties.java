@@ -19,7 +19,6 @@ public class StorageProperties {
     //private String location = "upload-dir";
             @Value("${image.storage}")
     private String location;
-
 //    public String getLocation() {
 //        return location;
 //    }
