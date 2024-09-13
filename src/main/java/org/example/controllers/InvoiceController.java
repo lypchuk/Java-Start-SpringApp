@@ -127,7 +127,7 @@ public class InvoiceController {
             //  Model model,
             RedirectAttributes attributes
     ) {
-//        service.saveInvoice(model);
+        service.saveInvoice(model);
         Long id = service.saveInvoice(model).getId();
 
         attributes.addAttribute("message", "Record with id : '"+id+"' is saved successfully !");

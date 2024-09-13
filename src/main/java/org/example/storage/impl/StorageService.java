@@ -15,6 +15,7 @@ public interface StorageService {
     String save(MultipartFile file) throws IOException;
     String updateFile(String fileName,MultipartFile file) throws IOException;
     void delete(String imageName) throws IOException;
+    String updateFiles(String fileName,MultipartFile file, FileSaveFormat format) throws IOException;
 
     void store(MultipartFile file);
 
@@ -25,6 +26,7 @@ public interface StorageService {
     Resource loadAsResource(String filename);
 
     void deleteAll();
-    String saveImage(MultipartFile file, FileSaveFormat format) throws IOException;
+    String saveImages(MultipartFile file, FileSaveFormat format) throws IOException;
+    void deleteImages(String imageName) throws IOException;
 
 }

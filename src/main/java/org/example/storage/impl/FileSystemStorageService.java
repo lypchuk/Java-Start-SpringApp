@@ -110,7 +110,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public String saveImage(MultipartFile file, FileSaveFormat format) throws IOException {
+    public String saveImages(MultipartFile file, FileSaveFormat format) throws IOException {
         String ext = format.name().toLowerCase();
         String randomFileName = UUID.randomUUID().toString()+"."+ext;
         int [] sizes = {32,150,300,600,1200};
@@ -169,6 +169,26 @@ public class FileSystemStorageService implements StorageService {
         //String randomFileName = this.save(file);
         //return randomFileName;
         return this.save(file);
+    }
+
+    @Override
+    public void deleteImages(String imageName) throws IOException {
+        int[] sizes = {32, 150, 300, 600, 1200};
+        for (var size : sizes) {
+            File f = new File(uploadPath + "/" + size + "_" + imageName);
+            if (f.exists() && !f.isDirectory()) {
+                Files.delete(f.toPath());
+            }
+        }
+    }
+
+
+    @Override
+    public String updateFiles(String fileName,MultipartFile file, FileSaveFormat format) throws IOException {
+        this.deleteImages(fileName);
+        //String randomFileName = this.save(file);
+        //return randomFileName;
+        return this.saveImages(file,format);
     }
 
 }
