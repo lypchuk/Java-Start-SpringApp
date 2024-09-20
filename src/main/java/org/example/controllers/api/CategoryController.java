@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.example.mapper.CategoryMapper;
 import org.example.model.CategoryEntity;
 import org.example.repo.CategoryRepository;
-import org.example.storage.impl.StorageService;
+import org.example.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

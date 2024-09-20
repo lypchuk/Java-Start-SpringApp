@@ -1,4 +1,4 @@
-package org.example.storage.impl;
+package org.example.storage;
 
 import org.example.service.FileSaveFormat;
 import org.springframework.core.io.Resource;
@@ -28,5 +28,5 @@ public interface StorageService {
     void deleteAll();
     String saveImages(MultipartFile file, FileSaveFormat format) throws IOException;
     void deleteImages(String imageName) throws IOException;
-
+    String saveImages(String fileUrl, FileSaveFormat format) throws IOException;
 }

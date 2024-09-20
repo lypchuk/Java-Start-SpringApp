@@ -1,10 +1,12 @@
 package org.example.storage.impl;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,6 +17,7 @@ import java.util.stream.Stream;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.example.service.FileSaveFormat;
+import org.example.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -109,17 +112,23 @@ public class FileSystemStorageService implements StorageService {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
+//    @Override
+//    public String saveImages(MultipartFile file, FileSaveFormat format) throws IOException {
+//        String ext = format.name().toLowerCase();
+//        String randomFileName = UUID.randomUUID().toString()+"."+ext;
+//        int [] sizes = {32,150,300,600,1200};
+//        var bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
+//        for (var size : sizes) {
+//            String fileSave = rootLocation.toString()+"/"+size+"_"+randomFileName;
+//            Thumbnails.of(bufferedImage).size(size, size).outputFormat(ext).toFile(fileSave);
+//        }
+//        return randomFileName;
+//    }
+
     @Override
     public String saveImages(MultipartFile file, FileSaveFormat format) throws IOException {
-        String ext = format.name().toLowerCase();
-        String randomFileName = UUID.randomUUID().toString()+"."+ext;
-        int [] sizes = {32,150,300,600,1200};
         var bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-        for (var size : sizes) {
-            String fileSave = rootLocation.toString()+"/"+size+"_"+randomFileName;
-            Thumbnails.of(bufferedImage).size(size, size).outputFormat(ext).toFile(fileSave);
-        }
-        return randomFileName;
+        return saveBufferedImage(bufferedImage, format);
     }
 
 
@@ -191,4 +200,24 @@ public class FileSystemStorageService implements StorageService {
         return this.saveImages(file,format);
     }
 
+
+    @Override
+    public String saveImages(String fileUrl, FileSaveFormat format) throws IOException {
+        try (InputStream inputStream = new URL(fileUrl).openStream()) {
+            BufferedImage bufferedImage = ImageIO.read(inputStream);
+            return saveBufferedImage(bufferedImage, format);
+        }
+    }
+
+    private String saveBufferedImage(BufferedImage bufferedImage, FileSaveFormat format) throws IOException {
+        String ext = format.name().toLowerCase();
+        String randomFileName = UUID.randomUUID().toString()+"."+ext;
+        int [] sizes = {32,150,300,600,1200};
+
+        for (var size : sizes) {
+            String fileSave = rootLocation.toString()+"/"+size+"_"+randomFileName;
+            Thumbnails.of(bufferedImage).size(size, size).outputFormat(ext).toFile(fileSave);
+        }
+        return randomFileName;
+    }
 }

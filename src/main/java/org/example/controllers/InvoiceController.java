@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.example.exception.InvoiceNotFoundException;
 import org.example.model.Invoice;
 import org.example.service.IInvoiceService;
-import org.example.storage.impl.StorageService;
+import org.example.storage.StorageService;
 
 @Controller
 @RequestMapping("/invoice")

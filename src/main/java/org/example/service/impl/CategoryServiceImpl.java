@@ -1,16 +1,12 @@
 package org.example.service.impl;
 
-import org.example.dto.category.CategoryCreateDTO;
 import org.example.exception.InvoiceNotFoundException;
 import org.example.model.CategoryEntity;
-import org.example.model.Invoice;
 import org.example.repo.CategoryRepository;
-import org.example.storage.impl.StorageService;
+import org.example.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.service.ICategoryService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;

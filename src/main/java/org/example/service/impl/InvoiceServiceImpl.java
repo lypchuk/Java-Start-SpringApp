@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.example.model.InvoiceUpdateModel;
-import org.example.storage.impl.StorageService;
+import org.example.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.exception.InvoiceNotFoundException;

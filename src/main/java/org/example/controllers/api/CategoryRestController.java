@@ -1,13 +1,13 @@
 package org.example.controllers.api;
 
 import lombok.AllArgsConstructor;
+import org.example.dto.category.CategoryItemDTO;
 import org.example.exception.CategoryNotFoundException;
-import org.example.exception.InvoiceNotFoundException;
 import org.example.mapper.CategoryMapper;
 import org.example.model.CategoryEntity;
 import org.example.model.CategoryUpdateModel;
 import org.example.repo.CategoryRepository;
-import org.example.storage.impl.StorageService;
+import org.example.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,18 +55,30 @@ public class CategoryRestController {
     }
 
 
+//    @GetMapping(value = "/getAllCategories")
+//    //public List<CategoryEntity> getAllCategories(
+//    public ResponseEntity<List<CategoryEntity>> getAllCategories(
+//    ) {
+//        List<CategoryEntity> categories= service.getAllCategory();
+//        //return categories;
+//        return ResponseEntity.ok(categories) ;
+//    }
+
     @GetMapping(value = "/getAllCategories")
-    public List<CategoryEntity> getAllCategories(
+    //public List<CategoryEntity> getAllCategories(
+    public ResponseEntity<List<CategoryItemDTO>> getAllCategories(
     ) {
-        List<CategoryEntity> categories= service.getAllCategory();
-        return categories;
+        var categories = categoryMapper.toDto(categoryRepository.findAll());
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping(value = "/getByIdCategory/{id}")
-    public CategoryEntity getByIdCategory(@PathVariable("id") int id)
+    public ResponseEntity<CategoryItemDTO> getByIdCategory(@PathVariable("id") int id)
     {
-        CategoryEntity item= service.getCategoryById(id);
-        return item;
+//        CategoryEntity item= service.getCategoryById(id);
+//        return ResponseEntity.ok(item);
+        var category = categoryMapper.toDto(categoryRepository.findById(id).get());
+        return ResponseEntity.ok(category);
     }
 
 
@@ -122,19 +134,22 @@ public class CategoryRestController {
     }
 
 
-    @GetMapping("/edit")
-    public CategoryEntity getEditPage(
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<CategoryItemDTO> getEditPage(
             Model model,
-            @RequestParam int id
+            //@RequestParam int id
+            @PathVariable("id") int id
     ) {
-        String page = null;
         try {
-            CategoryEntity category = service.getCategoryById(id);
-            return category;
+//            CategoryEntity category = service.getCategoryById(id);
+//            return category;
+            var category = categoryMapper.toDto(categoryRepository.findById(id).get());
+            return ResponseEntity.ok(category);
         } catch (Exception e) {
             return null;
         }
     }
+
 
     @GetMapping("/addCategory")
     public String showRegistration() {
